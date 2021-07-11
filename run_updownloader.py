@@ -58,14 +58,14 @@ if __name__ == "__main__":
     if args.updown == "up":
         if args.filefolder == "file":
             s3_updownloader.upload_file(args.src_path, args.dest_path)
-        if args.filefolder == "folder":
+        elif args.filefolder == "folder":
             s3_updownloader.upload_folder(args.src_path, args.dest_path)
         else:
             print("filefolder must be 'file' or 'folder'.")
     elif args.updown == "down":
         if args.filefolder == "file":
             s3_updownloader.download_file(args.src_path, args.dest_path)
-        if args.filefolder == "folder":
+        elif args.filefolder == "folder":
             s3_updownloader.download_folder(args.src_path, args.dest_path)
         else:
             print("filefolder must be 'file' or 'folder'.")
