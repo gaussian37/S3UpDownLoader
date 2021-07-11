@@ -93,14 +93,33 @@ dest_path="C://.../.../local_example"
 s3_updownloader.download_folder(src_path, dest_path)
 
 # ③ upload a file from local storage to S3 storage
-src_path="path/.../.../s3_storage_example"
-dest_path="C://.../.../local/file_example.zip"
+src_path="C://.../.../local/file_example.zip"
+dest_path="path/.../.../s3_storage_example"
 s3_updownloader.upload_file(src_path, dest_path)
 
 # ④ upload a folder from local storage to S3 storage
-src_path="path/.../.../s3_storage_example"
-dest_path="C://.../.../local_example"
+src_path="C://.../.../local_example"
+dest_path="path/.../.../s3_storage_example"
 s3_updownloader.upload_folder(src_path, dest_path)
+```
+
+<br>
+
+## **How to use run_updownload.py**
+
+<br>
+
+```python
+
+python3 run_updownload.py \
+    --updown=up \                                       # (Required) enter 'up' for upload or 'down' for download.
+    --filefolder=file \                                 # (Required) enter 'file' for a file or 'folder' for a folder.
+    --src_path=C://.../.../local/file_example.zip \     # (Required) enter the path to the file or folder to be up/downloaded.
+    --dest_path=path/.../.../s3_storage_example \       # (Required) enter the path to the file or folder to be up/downloaded.
+    --bucket_name=USE_REAL_BUCKET_NAME \                # (Optional) bucket name.
+    --access_key=USE_REAL_ACCESS_KEY \                  # (Optional) access key.
+    --secret_key=USE_REAL_SECRET_KEY \                  # (Optional) secret key.
+    --endpoint_url=USE_REAL_ENDPOINT_URL_IF_NECESSARY \ # (Optional) endpoint url for S3 Compatible Storage.
 ```
 
 <br>
