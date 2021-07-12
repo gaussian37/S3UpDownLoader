@@ -77,7 +77,7 @@ class S3UpDownLoader():
                 else:
                     print(">>> download file : (S3 storage) " + src_file_path + " -> (Local) " + destination_path)
                     self.bucket.download_file(src_file_path, destination_path, Config=self.config) 
-                    print(">>> Done."
+                    print(">>> Done.")
 
     
     def download_file(self, src_path, dest_path):
