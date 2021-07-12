@@ -79,7 +79,8 @@ s3_updownloader = S3UpDownLoader(
         bucket_name = BUCKET_NAME,
         access_key = ACCESS_KEY,
         secret_key = SECRET_KEY,
-        endpoint_url  = ENDPOINT_URL
+        endpoint_url  = ENDPOINT_URL,
+        verbose = False
     )
 
 # ① download a file from S3 storage to local.
@@ -120,6 +121,7 @@ python3 run_updownload.py \
     --access_key=USE_REAL_ACCESS_KEY \                  # (Optional) access key.
     --secret_key=USE_REAL_SECRET_KEY \                  # (Optional) secret key.
     --endpoint_url=USE_REAL_ENDPOINT_URL_IF_NECESSARY \ # (Optional) endpoint url for S3 Compatible Storage.
+    --verbose=False                                   \ # (Optional) verbose
 ```
 
 <br>

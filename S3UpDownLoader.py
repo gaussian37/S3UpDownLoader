@@ -6,11 +6,12 @@ import time
 class S3UpDownLoader():
 
     def __init__(self, bucket_name=None, access_key=None, secret_key=None, 
-                    endpoint_url=None, multipart_threshold=50, max_concurrency=50):
+                    endpoint_url=None, multipart_threshold=50, max_concurrency=50, verbose=False):
         self.bucket_name = bucket_name
         self.access_key = access_key
         self.secret_key = secret_key
         self.endpoint_url = endpoint_url
+        self.verbose = verbose
 
         print("s3 resource is being accessed..")
         self.s3 = boto3.resource(
@@ -66,12 +67,18 @@ class S3UpDownLoader():
                 os.makedirs(os.path.dirname(destination_path))
                     
             file_size = self.s3.Object(self.bucket_name, src_file_path).content_length
-            if file_size > 0:       
-                print(">>> download file : (S3 storage) " + src_file_path + " -> (Local) " + destination_path)
-                time.sleep(0.3)
-                
-                with tqdm(total=file_size, unit='B', unit_scale=True, desc=src_file_path, ascii=True) as t:
-                    self.bucket.download_file(src_file_path, destination_path, Config=self.config, Callback=self.get_bytes(t)) 
+            
+            if file_size > 0:
+                if self.verbose == True:
+                    print(">>> download file : (S3 storage) " + src_file_path + " -> (Local) " + destination_path)
+                    time.sleep(0.3)
+                    with tqdm(total=file_size, unit='B', unit_scale=True, desc=src_file_path, ascii=True) as t:
+                        self.bucket.download_file(src_file_path, destination_path, Config=self.config, Callback=self.get_bytes(t)) 
+                else:
+                    print(">>> download file : (S3 storage) " + src_file_path + " -> (Local) " + destination_path)
+                    self.bucket.download_file(src_file_path, destination_path, Config=self.config) 
+                    print(">>> Done."
+
     
     def download_file(self, src_path, dest_path):
         '''
@@ -88,11 +95,15 @@ class S3UpDownLoader():
         file_name = os.path.basename(src_path)
         destination_path = os.path.abspath(dest_path + "/" + file_name)
 
-        print(">>> download file : (S3 storage) " + src_path + " -> (Local) " + destination_path)
-        time.sleep(0.3)
-        
-        with tqdm(total=file_size, unit='B', unit_scale=True, desc=src_path, ascii=True) as t:
-            self.bucket.download_file(src_path, destination_path, Config=self.config, Callback=self.get_bytes(t))
+        if self.verbose == True:
+            print(">>> download file : (S3 storage) " + src_path + " -> (Local) " + destination_path)
+            time.sleep(0.3)
+            with tqdm(total=file_size, unit='B', unit_scale=True, desc=src_path, ascii=True) as t:
+                self.bucket.download_file(src_path, destination_path, Config=self.config, Callback=self.get_bytes(t))
+        else:
+            print(">>> download file : (S3 storage) " + src_path + " -> (Local) " + destination_path)
+            self.bucket.download_file(src_path, destination_path, Config=self.config)
+            print("Done.")
 
 
     def upload_folder(self, src_path, dest_path):
@@ -125,11 +136,15 @@ class S3UpDownLoader():
             else:
                 destination_path = dest_path + "/" + base_file_path
         
-            print(">>> upload file : (Local) " + src_file_path + " -> (S3 Storage) " + destination_path)
-            time.sleep(0.3)
-
-            with tqdm(total=file_size, unit='B', unit_scale=True, desc=file_name, ascii=True) as t:
-                self.s3.meta.client.upload_file(src_file_path, self.bucket_name, destination_path, Config=self.config, Callback=self.get_bytes(t)) 
+            if self.verbose == True:
+                print(">>> upload file : (Local) " + src_file_path + " -> (S3 Storage) " + destination_path)
+                time.sleep(0.3)
+                with tqdm(total=file_size, unit='B', unit_scale=True, desc=file_name, ascii=True) as t:
+                    self.s3.meta.client.upload_file(src_file_path, self.bucket_name, destination_path, Config=self.config, Callback=self.get_bytes(t)) 
+            else:
+                print(">>> upload file : (Local) " + src_file_path + " -> (S3 Storage) " + destination_path)
+                self.s3.meta.client.upload_file(src_file_path, self.bucket_name, destination_path, Config=self.config) 
+                print("Done.")
         
         
     def upload_file(self, src_path, dest_path):
@@ -154,8 +169,11 @@ class S3UpDownLoader():
         else:
             destination_path = dest_path + "/" + file_name
 
-        print(">>> upload file : (Local) " + src_path + " -> (S3 Storage) " + destination_path)
-        time.sleep(0.3)
-        
-        with tqdm(total=file_size, unit='B', unit_scale=True, desc=file_name, ascii=True) as t:
-            self.s3.meta.client.upload_file(src_path, self.bucket_name, destination_path, Config=self.config, Callback=self.get_bytes(t)) 
+        if self.verbose == True:
+            print(">>> upload file : (Local) " + src_path + " -> (S3 Storage) " + destination_path)
+            time.sleep(0.3)
+            with tqdm(total=file_size, unit='B', unit_scale=True, desc=file_name, ascii=True) as t:
+                self.s3.meta.client.upload_file(src_path, self.bucket_name, destination_path, Config=self.config, Callback=self.get_bytes(t)) 
+        else:
+            print(">>> upload file : (Local) " + src_path + " -> (S3 Storage) " + destination_path)
+            self.s3.meta.client.upload_file(src_path, self.bucket_name, destination_path, Config=self.config) 

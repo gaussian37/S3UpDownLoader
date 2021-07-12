@@ -22,6 +22,8 @@ def get_args():
     parser.add_argument('--endpoint_url', default=None, help='(Optional) endpoint url for S3 Compatible Storage.')
     parser.add_argument('--multipart_threshold', type=int, default=50, help='(Optional) size of eachpart. default is 50 (Mega Byte).')
     parser.add_argument('--max_concurrency', type=int, default=50, help='(Optional) the number of maximum concurrent multipart. default is 50.')
+    parser.add_argument('--verbose', type=bool, default=False, help='(Optional) verbose. default is False.')
+
 
     args = parser.parse_args()
     return args
@@ -52,7 +54,8 @@ if __name__ == "__main__":
         bucket_name = args.bucket_name,
         access_key = args.access_key,
         secret_key = args.secret_key ,
-        endpoint_url  = args.endpoint_url
+        endpoint_url  = args.endpoint_url,
+        verbose = args.verbose
     )
     
     if args.updown == "up":
