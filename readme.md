@@ -15,8 +15,9 @@
 
 <br>
 
-- Requirements : `boto3`, `tqdm`
-- Install packages with `pip install boto3 tqdm`
+- If you don't have packages below, those automatically will be installed when you import `S3UpDownLoader`.
+    - Requirements : `boto3`, `tqdm`
+    - Install packages with `pip install boto3 tqdm`
 
 <br>
 
