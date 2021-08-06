@@ -65,6 +65,15 @@
 
 <br>
 
+- ⑤ check_path_exists : `.check_path_exists(path)`
+    - chech whether input path (directory or file) exists or not.
+        - path : directory path or directory + file path
+    - Example : return True/False according to the result of path existence.
+        - ex1) path : path/.../.../s3_storage_example
+        - ex2) path : path/.../.../s3_storage_example/file_example.zip
+
+<br>
+
 ## **Example**
 
 <br>
@@ -102,6 +111,20 @@ s3_updownloader.upload_file(src_path, dest_path)
 src_path="C://.../.../local_example"
 dest_path="path/.../.../s3_storage_example"
 s3_updownloader.upload_folder(src_path, dest_path)
+
+# ⑤ chech whether input path (directory or file) exists or not.
+path1 = "path/.../.../s3_storage_example"
+path2 = "path/.../.../s3_storage_example/file_example.zip"
+
+if s3_updownloader.check_path_exists(path1):
+    print("s3_storage_example folder exists.")
+else:
+    print("s3_storage_example folder dosen't exist.")
+
+if s3_updownloader.check_path_exists(path2):
+    print("file_example.zip file exists.")
+else:
+    print("file_example.zip file dosen't exist.")
 ```
 
 <br>

@@ -1,7 +1,27 @@
 import os
+import sys
+import subprocess
+import time
 import boto3
 from tqdm import tqdm
-import time
+
+# install boto3 if not installed.
+try:
+    import boto3
+except ModuleNotFoundError:
+    print("Install boto3 in python3")
+    subprocess.call([sys.executable, "-m", "pip", "install", 'boto3'])
+finally:
+    import boto3
+
+# install tqdm if not installed.
+try:
+    import tqdm
+except ModuleNotFoundError:
+    print("Install tqdm in python3")
+    subprocess.call([sys.executable, "-m", "pip", "install", 'tqdm'])
+finally:
+    from tqdm import tqdm
 
 class S3UpDownLoader():
 
@@ -20,6 +40,16 @@ class S3UpDownLoader():
             aws_secret_access_key=secret_key, 
             endpoint_url=endpoint_url
         )
+
+        print("s3 client is being accessed..") 
+        self.s3_client = boto3.client(
+            's3',
+            aws_access_key_id=access_key,
+            aws_secret_access_key=secret_key,
+            endpoint_url=endpoint_url
+        )
+
+        print("s3 bucket is being accessed..") 
         self.bucket = self.s3.Bucket(bucket_name)
         print(">>> Done.")
 
@@ -46,6 +76,10 @@ class S3UpDownLoader():
         elif path[-1] == "/" or path[-1] == "\\":
             path = path[:-1:]
         return path
+
+    def check_path_exists(self, path):        
+        result = self.s3_client.list_objects_v2(Bucket=self.bucket_name, Prefix=path, MaxKeys=1)
+        return 'Contents' in result
 
     def download_folder(self, src_path, dest_path):
         '''
