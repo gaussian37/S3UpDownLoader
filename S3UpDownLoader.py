@@ -26,7 +26,7 @@ finally:
 class S3UpDownLoader():
 
     def __init__(self, bucket_name=None, access_key=None, secret_key=None, 
-                    endpoint_url=None, multipart_threshold=50, max_concurrency=50, verbose=False):
+                    endpoint_url=None, multipart_threshold=1, max_concurrency=1, verbose=True):
         self.bucket_name = bucket_name
         self.access_key = access_key
         self.secret_key = secret_key
